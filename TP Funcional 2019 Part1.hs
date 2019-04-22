@@ -5,7 +5,7 @@ data Auto = Auto{ nombre::String, nivelDeNafta::Int, velocidad::Int, enamorade::
 rochaMcQueen = Auto{nombre = "RochaMcQueen" , nivelDeNafta = 300 , velocidad = 0 , enamorade = "Ronco" , truco = (deReversa)}
 biankerr = Auto{nombre = "Biankerr" , nivelDeNafta = 500 , velocidad = 20 , enamorade = "Tinch" , truco = (impresionar)}
 gushtav = Auto{nombre = "Gushtav" , nivelDeNafta = 200 , velocidad = 130 , enamorade = "PetiLaLinda" , truco = (nitro)}
-rodra = Auto{nombre = "Rodra" , nivelDeNafta = 0 , velocidad = 50 , enamorade = "Taisa" , truco = (finjirAmor "Petra")}
+rodra = Auto{nombre = "Rodra" , nivelDeNafta = 0 , velocidad = 50 , enamorade = "Taisa" , truco = (fingirAmor "Petra")}
 
 --funcion "deReversa" "completa":
 --deReversa :: Auto -> Int -> Auto
@@ -15,19 +15,19 @@ deReversa :: Auto -> Auto
 deReversa auto = subirNafta auto 200
 
 impresionar :: Auto -> Auto
-impresionar auto = subirVelocidad auto (velocidad auto)
+impresionar auto = incrementarVelocidadEn auto (velocidad auto)
 
 nitro :: Auto -> Auto
-nitro = incrementarVelocidadEn 15
+nitro = flip incrementarVelocidadEn 15
 
-finjirAmor :: String -> Auto -> Auto
-finjirAmor nueveEnamorade auto = auto{ enamorade = nueveEnamorade }
+fingirAmor :: String -> Auto -> Auto
+fingirAmor nueveEnamorade auto = auto{ enamorade = nueveEnamorade }
 
 incrementarVelocidad :: Auto -> Auto
 incrementarVelocidad auto 
-                          | cantidadVocales (enamorade auto) > 4 = subirVelocidad auto 30
-                          | cantidadVocales (enamorade auto) >= 3 = subirVelocidad auto 20
-                          | cantidadVocales (enamorade auto) >= 1 = subirVelocidad auto 15
+                          | cantidadVocales (enamorade auto) > 4 = incrementarVelocidadEn auto 30
+                          | cantidadVocales (enamorade auto) >= 3 = incrementarVelocidadEn auto 20
+                          | cantidadVocales (enamorade auto) >= 1 = incrementarVelocidadEn auto 15
                           | otherwise = auto
 
 puedeRealizarTruco :: Auto -> Bool
@@ -37,21 +37,18 @@ comboLoco :: Auto -> Auto
 comboLoco = deReversa.nitro
 
 queTrucazo :: String -> Auto -> Auto
-queTrucazo nueveAmor = incrementarVelocidad.(finjirAmor nueveAmor)
+queTrucazo nueveAmor = incrementarVelocidad.(fingirAmor nueveAmor)
 
 turbo :: Auto -> Auto
-turbo auto = vaciarNafta (incrementarVelocidadEn (nivelDeNafta auto * 10) auto)
+turbo auto = vaciarNafta (incrementarVelocidadEn auto (nivelDeNafta auto * 10))
 
 -- Aux Functions
 
 subirNafta :: Auto -> Int -> Auto
 subirNafta auto cant = auto{ nivelDeNafta = nivelDeNafta auto + cant }
 
-subirVelocidad :: Auto -> Int -> Auto
-subirVelocidad auto speed = auto{ velocidad = velocidad auto + speed }
-
-incrementarVelocidadEn :: Int -> Auto -> Auto
-incrementarVelocidadEn cant auto = auto{ velocidad = velocidad auto + cant }
+incrementarVelocidadEn :: Auto -> Int -> Auto
+incrementarVelocidadEn auto cant = auto{ velocidad = velocidad auto + cant }
 
 cantidadVocales :: String -> Int
 cantidadVocales = length.vocales

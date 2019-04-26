@@ -40,7 +40,7 @@ queTrucazo :: String -> Auto -> Auto
 queTrucazo nueveAmor = incrementarVelocidad.(fingirAmor nueveAmor)
 
 turbo :: Auto -> Auto
-turbo auto = vaciarNafta (incrementarVelocidadEn auto (nivelDeNafta auto * 10))
+turbo = vaciarNafta.aumentarVelocidadPorNivelDeNafta
 
 -- Aux Functions
 
@@ -49,6 +49,9 @@ subirNafta auto cant = auto{ nivelDeNafta = nivelDeNafta auto + cant }
 
 incrementarVelocidadEn :: Auto -> Int -> Auto
 incrementarVelocidadEn auto cant = auto{ velocidad = velocidad auto + cant }
+
+aumentarVelocidadPorNivelDeNafta :: Auto -> Auto
+aumentarVelocidadPorNivelDeNafta auto = incrementarVelocidadEn auto (nivelDeNafta auto * 10)
 
 cantidadVocales :: String -> Int
 cantidadVocales = length.vocales

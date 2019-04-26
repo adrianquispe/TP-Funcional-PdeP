@@ -31,7 +31,7 @@ incrementarVelocidad auto
                           | otherwise = auto
 
 puedeRealizarTruco :: Auto -> Bool
-puedeRealizarTruco auto = (tieneNafta auto) && (velocidad auto < 100)
+puedeRealizarTruco auto = (tieneNafta auto) && (velocidadNecesaria auto)
 
 comboLoco :: Auto -> Auto
 comboLoco = deReversa.nitro
@@ -61,6 +61,9 @@ esVocal = flip elem "aeiouAEIOU"
 
 tieneNafta :: Auto -> Bool
 tieneNafta auto = nivelDeNafta auto > 0
+
+velocidadNecesaria :: Auto -> Bool
+velocidadNecesaria auto = velocidad auto <100
 
 vaciarNafta :: Auto -> Auto
 vaciarNafta auto = auto{ nivelDeNafta = 0 }

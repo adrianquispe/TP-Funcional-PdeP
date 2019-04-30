@@ -80,3 +80,11 @@ sacarAlPistero::Carrera->Carrera
 sacarAlPistero carrera = carrera{
 	participantes = (tail (participantes carrera))
 }
+
+lluvia::Carrera->Carrera
+lluvia carrera = carrera{
+	participantes = map (flip incrementarVelocidadEn (-10)) (participantes carrera)
+} --En este ejercicio hay que consultar a algun ayudante/profesor que hacer con el primer corredor ya que su velocidad queda en -10
+
+
+

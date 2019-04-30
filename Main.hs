@@ -100,4 +100,16 @@ modificarTruco auto newTruco = auto{
 }
 
 
+--pocaReserva::Carrera->Carrera
+--pocaReserva carrera = carrera{
+-- participantes = ((participantes carrera))
+--}
+
+--conPocaNafta listaAutos = filter ((nivelDeNafta) > 30) (listaAutos)
+
+podio::Carrera->Carrera
+podio carrera = carrera{
+	participantes = (take 3 (participantes carrera))
+}
+
 

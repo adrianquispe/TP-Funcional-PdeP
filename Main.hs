@@ -14,6 +14,9 @@ potreroFunes = Carrera { cantidadVueltas = 3, longitudPista = 5, integrantesPubl
 --deReversa :: Auto -> Int -> Auto
 --deReversa auto distancia = subirNafta(auto, distancia/5)
 
+inutilidad::Auto->Auto
+inutilidad auto = auto
+
 deReversa :: Auto -> Auto
 deReversa auto = subirNafta auto (div (velocidad auto) (5))
 
@@ -85,6 +88,16 @@ lluvia::Carrera->Carrera
 lluvia carrera = carrera{
 	participantes = map (flip incrementarVelocidadEn (-10)) (participantes carrera)
 } --En este ejercicio hay que consultar a algun ayudante/profesor que hacer con el primer corredor ya que su velocidad queda en -10
+
+neutralizarTrucos::Carrera->Carrera
+neutralizarTrucos carrera = carrera{
+	participantes = map (flip modificarTruco (inutilidad)) (participantes carrera)
+}
+
+modificarTruco::Auto->(Auto->Auto)->Auto
+modificarTruco auto newTruco = auto{
+	truco = newTruco
+}
 
 
 

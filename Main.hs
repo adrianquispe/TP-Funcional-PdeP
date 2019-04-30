@@ -13,7 +13,7 @@ rodra = Auto{nombre = "Rodra" , nivelDeNafta = 0 , velocidad = 50 , enamorade = 
 --deReversa auto distancia = subirNafta(auto, distancia/5)
 
 deReversa :: Auto -> Auto
-deReversa auto = subirNafta auto 200
+deReversa auto = subirNafta auto (div (velocidad auto) (5))
 
 impresionar :: Auto -> Auto
 impresionar auto = incrementarVelocidadEn auto (velocidad auto)

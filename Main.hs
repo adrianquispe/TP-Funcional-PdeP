@@ -1,12 +1,14 @@
 import Text.Show.Functions
 
 data Auto = Auto{ nombre::String, nivelDeNafta::Int, velocidad::Int, enamorade::String, truco::(Auto -> Auto) } deriving Show
-data Carrera = Carrera { cantidadVueltas::Int, longitudPista::Int, integrantesPublico::[String], participantes::[String], trampa::(Auto->Auto)} deriving Show
+data Carrera = Carrera { cantidadVueltas::Int, longitudPista::Int, integrantesPublico::[String], participantes::[Auto], trampa::(Carrera->Carrera)} deriving Show
 
 rochaMcQueen = Auto{nombre = "RochaMcQueen" , nivelDeNafta = 300 , velocidad = 0 , enamorade = "Ronco" , truco = (deReversa)}
 biankerr = Auto{nombre = "Biankerr" , nivelDeNafta = 500 , velocidad = 20 , enamorade = "Tinch" , truco = (impresionar)}
 gushtav = Auto{nombre = "Gushtav" , nivelDeNafta = 200 , velocidad = 130 , enamorade = "PetiLaLinda" , truco = (nitro)}
 rodra = Auto{nombre = "Rodra" , nivelDeNafta = 0 , velocidad = 50 , enamorade = "Taisa" , truco = (fingirAmor "Petra")}
+
+potreroFunes = Carrera { cantidadVueltas = 3, longitudPista = 5, integrantesPublico = ["Ronco","Tinch","Dodain"], participantes = [rochaMcQueen,biankerr,gushtav,rodra], trampa = (sacarAlPistero) }
 
 --funcion "deReversa" "completa":
 --deReversa :: Auto -> Int -> Auto
@@ -72,3 +74,9 @@ velocidadNecesaria auto = velocidad auto <100
 vaciarNafta :: Auto -> Auto
 vaciarNafta auto = auto{ nivelDeNafta = 0 }
 
+--Trampas--
+
+sacarAlPistero::Carrera->Carrera
+sacarAlPistero carrera = carrera{
+	participantes = (tail (participantes carrera))
+}

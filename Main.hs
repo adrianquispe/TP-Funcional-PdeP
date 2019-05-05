@@ -112,8 +112,6 @@ podio carrera = carrera{
 }
 
 
-
---3.2
 filtrarEnamorade :: Carrera -> [Auto]
 filtrarEnamorade carrera = map ejecutarTruco (filter (buscarEnamorade carrera) (participantes carrera))
 
@@ -122,3 +120,9 @@ buscarEnamorade carrera auto = elem (enamorade auto) (integrantesPublico carrera
 
 ejecutarTruco :: Auto -> Auto
 ejecutarTruco auto = (truco auto) auto
+
+sufrirTrampa :: Carrera -> Carrera
+sufrirTrampa carrera = ejecutarTrampa carrera
+
+ejecutarTrampa :: Carrera -> Carrera
+ejecutarTrampa carrera = (trampa carrera) carrera

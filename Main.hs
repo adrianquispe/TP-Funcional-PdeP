@@ -113,7 +113,7 @@ podio carrera = carrera{
 
 
 
-3.2
+--3.2
 filtrarEnamorade :: Carrera -> [Auto]
 filtrarEnamorade carrera = map ejecutarTruco (filter (buscarEnamorade carrera) (participantes carrera))
 

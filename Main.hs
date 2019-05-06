@@ -1,3 +1,4 @@
+module Kars where
 import Text.Show.Functions
 
 data Auto = Auto{ nombre::String, nivelDeNafta::Int, velocidad::Int, enamorade::String, truco::(Auto -> Auto) } deriving Show
@@ -168,3 +169,7 @@ esMasVelozQue unAuto otroAuto
 elGranTruco :: [(Auto->Auto)] -> Auto -> Auto
 elGranTruco [x] auto = x auto
 elGranTruco (x:xs) auto = (elGranTruco(xs).x) auto
+
+--aux test
+devolverParticipantes :: Carrera -> [String]
+devolverParticipantes carrera = map nombre (participantes carrera) 

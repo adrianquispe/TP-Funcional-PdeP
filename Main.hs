@@ -77,8 +77,11 @@ vaciarNafta auto = auto{ nivelDeNafta = 0 }
 
 sacarAlPistero::Carrera->Carrera
 sacarAlPistero carrera = carrera{
-     participantes = (tail (participantes carrera))
+     participantes =  sacarAQuienVaPrimero (participantes carrera)
 }
+sacarAQuienVaPrimero :: [Auto] -> [Auto]
+sacarAQuienVaPrimero [] = []
+sacarAQuienVaPrimero (primero:resto) = resto
 
 lluvia::Carrera->Carrera
 lluvia carrera = carrera{
@@ -137,20 +140,11 @@ haceTrucoSiEstaEnamoradeEnPublico publico auto
                                               | elem (enamorade auto) publico = (truco auto) auto
                                               | otherwise = auto
 
-buscarEnamorade :: Carrera -> Auto -> Bool
-buscarEnamorade carrera auto = elem (enamorade auto) (integrantesPublico carrera)
-
-ejecutarTruco :: Auto -> Auto
-ejecutarTruco auto = (truco auto) auto
-
 sufrirTrampa :: Carrera -> Carrera
-sufrirTrampa carrera = ejecutarTrampa carrera
-
-ejecutarTrampa :: Carrera -> Carrera
-ejecutarTrampa carrera = (trampa carrera) carrera
+sufrirTrampa carrera = (trampa carrera) carrera
 
 darVuelta :: Carrera -> Carrera
-darVuelta =sufrirTrampa.restarCombustible
+darVuelta = sufrirTrampa.enamoradeEnPublico.restarCombustible
 
 correrCarrera :: Carrera -> Carrera
 correrCarrera carrera = (!!) (iterate (darVuelta) (carrera)) (cantidadVueltas carrera)

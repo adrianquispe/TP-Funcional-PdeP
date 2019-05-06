@@ -113,7 +113,7 @@ podio carrera = carrera{
 
 
 restarCombustible :: Carrera -> Carrera
-restarCombustible carrera = carrera {participantes = map (formula carrera) (participantes carrera)}
+restarCombustible carrera = carrera {participantes = map (aplicarFormula carrera) (participantes carrera)}
 
 aplicarFormula :: Carrera -> Auto -> Auto
 aplicarFormula carrera auto = auto {nivelDeNafta = round (fromIntegral (nivelDeNafta auto) -  (longitudPista carrera) / fromIntegral 10 * fromIntegral (velocidad auto))}
@@ -133,3 +133,11 @@ sufrirTrampa carrera = ejecutarTrampa carrera
 ejecutarTrampa :: Carrera -> Carrera
 ejecutarTrampa carrera = (trampa carrera) carrera
 
+darVuelta :: Carrera -> Carrera
+darVuelta =sufrirTrampa.restarCombustible
+
+correrCarrera :: Carrera -> Carrera
+correrCarrera carrera = (!!) (iterate (darVuelta) (carrera)) (cantidadVueltas carrera)
+
+quienGana :: Carrera -> Auto
+quienGana = head.participantes.correrCarrera

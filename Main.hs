@@ -121,7 +121,10 @@ restarCombustible :: Carrera -> Carrera
 restarCombustible carrera = carrera {participantes = map (aplicarFormula carrera) (participantes carrera)}
 
 aplicarFormula :: Carrera -> Auto -> Auto
-aplicarFormula carrera auto = auto {nivelDeNafta = round (fromIntegral (nivelDeNafta auto) -  (longitudPista carrera) / fromIntegral 10 * fromIntegral (velocidad auto))}
+aplicarFormula carrera auto = auto {nivelDeNafta = nivelDeNafta auto - formula (velocidad auto) (longitudPista carrera)}
+
+formula :: Int -> Float -> Int
+formula speed largoPista = ceiling (largoPista * fromIntegral (div speed 10))
 
 filtrarEnamorade :: Carrera -> [Auto]
 filtrarEnamorade carrera = map ejecutarTruco (filter (buscarEnamorade carrera) (participantes carrera))

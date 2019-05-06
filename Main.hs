@@ -14,7 +14,7 @@ inutilidad::Auto->Auto
 inutilidad auto = auto
 
 deReversa :: Auto -> Auto
-deReversa auto = subirNafta auto (div (velocidad auto) (5))
+deReversa auto = subirNafta auto (div (velocidad auto) 5)
 
 impresionar :: Auto -> Auto
 impresionar auto = variarVelocidadEn auto (velocidad auto)
@@ -126,8 +126,16 @@ aplicarFormula carrera auto = auto {nivelDeNafta = nivelDeNafta auto - formula (
 formula :: Int -> Float -> Int
 formula speed largoPista = ceiling (largoPista * fromIntegral (div speed 10))
 
-filtrarEnamorade :: Carrera -> [Auto]
-filtrarEnamorade carrera = map ejecutarTruco (filter (buscarEnamorade carrera) (participantes carrera))
+enamoradeEnPublico :: Carrera -> Carrera
+enamoradeEnPublico carrera = carrera {participantes = realizarTrucoParaEnamorade (integrantesPublico carrera) (participantes carrera)}
+
+realizarTrucoParaEnamorade :: [String] -> [Auto] -> [Auto]
+realizarTrucoParaEnamorade publico = map (haceTrucoSiEstaEnamoradeEnPublico publico) 
+
+haceTrucoSiEstaEnamoradeEnPublico :: [String] -> Auto -> Auto
+haceTrucoSiEstaEnamoradeEnPublico publico auto
+                                              | elem (enamorade auto) publico = (truco auto) auto
+                                              | otherwise = auto
 
 buscarEnamorade :: Carrera -> Auto -> Bool
 buscarEnamorade carrera auto = elem (enamorade auto) (integrantesPublico carrera)

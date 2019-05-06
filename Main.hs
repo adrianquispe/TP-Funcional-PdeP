@@ -112,6 +112,12 @@ podio carrera = carrera{
 }
 
 
+restarCombustible :: Carrera -> Carrera
+restarCombustible carrera = carrera {participantes = map (formula carrera) (participantes carrera)}
+
+aplicarFormula :: Carrera -> Auto -> Auto
+aplicarFormula carrera auto = auto {nivelDeNafta = round (fromIntegral (nivelDeNafta auto) -  (longitudPista carrera) / fromIntegral 10 * fromIntegral (velocidad auto))}
+
 filtrarEnamorade :: Carrera -> [Auto]
 filtrarEnamorade carrera = map ejecutarTruco (filter (buscarEnamorade carrera) (participantes carrera))
 
@@ -126,3 +132,4 @@ sufrirTrampa carrera = ejecutarTrampa carrera
 
 ejecutarTrampa :: Carrera -> Carrera
 ejecutarTrampa carrera = (trampa carrera) carrera
+

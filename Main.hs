@@ -77,22 +77,27 @@ vaciarNafta auto = auto{ nivelDeNafta = 0 }
 
 sacarAlPistero::Carrera->Carrera
 sacarAlPistero carrera = carrera{
-	participantes = (tail (participantes carrera))
+     participantes = (tail (participantes carrera))
 }
 
 lluvia::Carrera->Carrera
 lluvia carrera = carrera{
-	participantes = map (flip variarVelocidadEn (-10)) (participantes carrera)
+     participantes = map (reducirVelocidadEn (-10)) (participantes carrera)
 } --En este ejercicio hay que consultar a algun ayudante/profesor que hacer con el primer corredor ya que su velocidad queda en -10
+  --Resuelto
+reducirVelocidadEn :: Int -> Auto -> Auto
+reducirVelocidadEn cant auto
+                            | cant > velocidad auto = variarVelocidadEn auto (velocidad auto)
+                            | otherwise = variarVelocidadEn auto cant
 
 neutralizarTrucos::Carrera->Carrera
 neutralizarTrucos carrera = carrera{
-	participantes = map (flip modificarTruco (inutilidad)) (participantes carrera)
+     participantes = map (modificarTruco inutilidad) (participantes carrera)
 }
 
-modificarTruco::Auto->(Auto->Auto)->Auto
-modificarTruco auto newTruco = auto{
-	truco = newTruco
+modificarTruco::(Auto->Auto)->Auto->Auto
+modificarTruco newTruco auto = auto{
+     truco = newTruco
 }
 
 
@@ -108,7 +113,7 @@ naftaSuficiente = (>30).nivelDeNafta
 
 podio::Carrera->Carrera
 podio carrera = carrera{
-	participantes = (take 3 (participantes carrera))
+     participantes = (take 3 (participantes carrera))
 }
 
 

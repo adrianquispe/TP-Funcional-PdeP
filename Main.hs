@@ -128,8 +128,8 @@ aplicarFormula carrera auto = modificarCombustible auto (formula (velocidad auto
 
 modificarCombustible :: Auto -> Int -> Auto
 modificarCombustible auto valorFormula
-                                           | valorFormula > nivelDeNafta auto = vaciarNafta auto
-                                           | otherwise = auto {nivelDeNafta = nivelDeNafta auto - valorFormula}
+                                      | valorFormula > nivelDeNafta auto = vaciarNafta auto
+                                      | otherwise = auto {nivelDeNafta = nivelDeNafta auto - valorFormula}
 
 formula :: Int -> Float -> Int
 formula speed largoPista = ceiling (largoPista * fromIntegral (div speed 10))
@@ -166,5 +166,5 @@ esMasVelozQue unAuto otroAuto
                              | otherwise = otroAuto
 
 elGranTruco :: [(Auto->Auto)] -> Auto -> Auto
-elGranTruco [x] auto = x auto
-elGranTruco (x:xs) auto = (elGranTruco(xs).x) auto
+elGranTruco [truco] = truco
+elGranTruco (unTruco:otrosTrucos) = (elGranTruco (otrosTrucos)).unTruco

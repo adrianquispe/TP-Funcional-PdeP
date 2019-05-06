@@ -141,3 +141,7 @@ correrCarrera carrera = (!!) (iterate (darVuelta) (carrera)) (cantidadVueltas ca
 
 quienGana :: Carrera -> Auto
 quienGana = head.participantes.correrCarrera
+
+elGranTruco :: [(Auto->Auto)] -> Auto -> Auto
+elGranTruco [x] auto = x auto
+elGranTruco (x:xs) auto = (elGranTruco(xs).x) auto

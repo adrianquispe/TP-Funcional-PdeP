@@ -124,7 +124,12 @@ restarCombustible :: Carrera -> Carrera
 restarCombustible carrera = carrera {participantes = map (aplicarFormula carrera) (participantes carrera)}
 
 aplicarFormula :: Carrera -> Auto -> Auto
-aplicarFormula carrera auto = auto {nivelDeNafta = nivelDeNafta auto - formula (velocidad auto) (longitudPista carrera)}
+aplicarFormula carrera auto = modificarCombustible auto (formula (velocidad auto) (longitudPista carrera))
+
+modificarCombustible :: Auto -> Int -> Auto
+modificarCombustible auto valorFormula
+                                           | valorFormula > nivelDeNafta auto = vaciarNafta auto
+                                           | otherwise = auto {nivelDeNafta = nivelDeNafta auto - valorFormula}
 
 formula :: Int -> Float -> Int
 formula speed largoPista = ceiling (largoPista * fromIntegral (div speed 10))
@@ -147,7 +152,7 @@ darVuelta :: Carrera -> Carrera
 darVuelta = sufrirTrampa.enamoradeEnPublico.restarCombustible
 
 correrCarrera :: Carrera -> Carrera
-correrCarrera carrera = (!!) (iterate (darVuelta) (carrera)) (cantidadVueltas carrera)
+correrCarrera carrera = (!!) (iterate (darVuelta) carrera) (cantidadVueltas carrera)
 
 quienGana :: Carrera -> Auto
 quienGana = head.participantes.correrCarrera

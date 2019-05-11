@@ -91,8 +91,11 @@ lluvia carrera = carrera{
   --Resuelto
 reducirVelocidadEn :: Int -> Auto -> Auto
 reducirVelocidadEn cant auto
-                            | cant > velocidad auto = variarVelocidadEn auto (velocidad auto)
+                            | cant > velocidad auto = frenarAuto auto
                             | otherwise = variarVelocidadEn auto cant
+
+frenarAuto :: Auto -> Auto
+frenarAuto unAuto = unAuto {velocidad = 0}
 
 neutralizarTrucos::Carrera->Carrera
 neutralizarTrucos carrera = carrera{
@@ -122,21 +125,21 @@ podio carrera = carrera{
 
 
 restarCombustible :: Carrera -> Carrera
-restarCombustible carrera = carrera {participantes = map (aplicarFormula carrera) (participantes carrera)}
+restarCombustible carrera = carrera {participantes = map (consumirConbustible carrera) (participantes carrera)}
 
-aplicarFormula :: Carrera -> Auto -> Auto
-aplicarFormula carrera auto = modificarCombustible auto (formula (velocidad auto) (longitudPista carrera))
+consumirConbustible :: Carrera -> Auto -> Auto
+consumirConbustible carrera auto = modificarCombustible auto (cantidadDeConsumoDeNafta (velocidad auto) (longitudPista carrera))
 
 modificarCombustible :: Auto -> Int -> Auto
 modificarCombustible auto valorFormula
                                       | valorFormula > nivelDeNafta auto = vaciarNafta auto
                                       | otherwise = auto {nivelDeNafta = nivelDeNafta auto - valorFormula}
 
-formula :: Int -> Float -> Int
-formula speed largoPista = ceiling (largoPista * fromIntegral (div speed 10))
+cantidadDeConsumoDeNafta :: Int -> Float -> Int
+cantidadDeConsumoDeNafta speed largoPista = ceiling (largoPista * fromIntegral (div speed 10))
 
-enamoradeEnPublico :: Carrera -> Carrera
-enamoradeEnPublico carrera = carrera {participantes = realizarTrucoParaEnamorade (integrantesPublico carrera) (participantes carrera)}
+realizarTrucoDeParticipantesSiEstaEnamoradeEnPublico :: Carrera -> Carrera
+realizarTrucoDeParticipantesSiEstaEnamoradeEnPublico carrera = carrera {participantes = realizarTrucoParaEnamorade (integrantesPublico carrera) (participantes carrera)}
 
 realizarTrucoParaEnamorade :: [String] -> [Auto] -> [Auto]
 realizarTrucoParaEnamorade publico = map (haceTrucoSiEstaEnamoradeEnPublico publico) 
@@ -150,7 +153,7 @@ sufrirTrampa :: Carrera -> Carrera
 sufrirTrampa carrera = (trampa carrera) carrera
 
 darVuelta :: Carrera -> Carrera
-darVuelta = sufrirTrampa.enamoradeEnPublico.restarCombustible
+darVuelta = sufrirTrampa.realizarTrucoDeParticipantesSiEstaEnamoradeEnPublico.restarCombustible
 
 correrCarrera :: Carrera -> Carrera
 correrCarrera carrera = (!!) (iterate (darVuelta) carrera) (cantidadVueltas carrera)

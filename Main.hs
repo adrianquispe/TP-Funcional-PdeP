@@ -142,7 +142,7 @@ realizarTrucoDeParticipantesSiEstaEnamoradeEnPublico :: Carrera -> Carrera
 realizarTrucoDeParticipantesSiEstaEnamoradeEnPublico carrera = carrera {participantes = realizarTrucoParaEnamorade (integrantesPublico carrera) (participantes carrera)}
 
 realizarTrucoParaEnamorade :: [String] -> [Auto] -> [Auto]
-realizarTrucoParaEnamorade publico = map (haceTrucoSiEstaEnamoradeEnPublico publico) 
+realizarTrucoParaEnamorade publico = (map.haceTrucoSiEstaEnamoradeEnPublico) publico
 
 haceTrucoSiEstaEnamoradeEnPublico :: [String] -> Auto -> Auto
 haceTrucoSiEstaEnamoradeEnPublico publico auto

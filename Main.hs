@@ -159,7 +159,7 @@ correrCarrera :: Carrera -> Carrera
 correrCarrera carrera = (!!) (iterate (darVuelta) carrera) (cantidadVueltas carrera)
 
 quienGana :: Carrera -> Auto
-quienGana carrera = elMasVeloz ((participantes.correrCarrera) carrera)
+quienGana = elMasVeloz.participantes.correrCarrera
 
 elMasVeloz :: [Auto] -> Auto
 elMasVeloz = foldl1 esMasVelozQue
